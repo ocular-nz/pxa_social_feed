@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaSocialFeed\GraphSdk;
 
+require_once(__DIR__.'/Facebook/autoload.php');
+
 use Facebook\Facebook;
 use Pixelant\PxaSocialFeed\Domain\Model\Token;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
