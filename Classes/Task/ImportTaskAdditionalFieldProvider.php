@@ -64,6 +64,13 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
             $taskInfo['pxasocialfeed_sender_email'] = $task->getSenderEmail();
         }
 
+        $additionalFields['pxasocialfeed_do_all_configs'] = [
+            'code' => '<input type="checkbox" name="tx_scheduler[pxasocialfeed_do_all_configs]" '.($task->isRunAllConfigurations() ? 'checked="checked"' : '').' />',
+            'label' => 'Run all configurations (So Facebook reviewer can see their new config running without needing admin to edit this scheduler)',
+            'cshKey' => '',
+            'cshLabel' => '',
+        ];
+
         $additionalFields['pxasocialfeed_configs'] = [
             'code' => SchedulerUtility::getAvailableConfigurationsSelectBox($taskInfo['pxasocialfeed_configs'] ?? []),
             'label' => 'LLL:EXT:pxa_social_feed/Resources/Private/Language/locallang_be.xlf:scheduler.configs',
@@ -100,6 +107,11 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
         // nothing to validate, just list of uids
         $valid = false;
 
+        // An empty config list is fine only if "Run all configurations" selected
+        if (!isset($submittedData['pxasocialfeed_configs']) && isset($submittedData['pxasocialfeed_do_all_configs'])) {
+            $submittedData['pxasocialfeed_configs'] = [];
+        }
+
         if (!isset($submittedData['pxasocialfeed_configs'])) {
             $this->addMessage('Wrong configurations select', FlashMessage::ERROR);
         } elseif (!$this->isValidEmail($submittedData['pxasocialfeed_sender_email'])
@@ -122,6 +134,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
         $task->setConfigurations($submittedData['pxasocialfeed_configs']);
         $task->setReceiverEmail($submittedData['pxasocialfeed_receiver_email']);
         $task->setSenderEmail($submittedData['pxasocialfeed_sender_email']);
+        $task->setRunAllConfigurations((bool) $submittedData['pxasocialfeed_do_all_configs']);
     }
 
     /**
