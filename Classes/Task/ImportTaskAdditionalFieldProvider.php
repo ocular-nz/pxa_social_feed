@@ -56,16 +56,18 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
             $taskInfo['pxasocialfeed_configs'] = null;
             $taskInfo['pxasocialfeed_receiver_email'] = '';
             $taskInfo['pxasocialfeed_sender_email'] = '';
+            $taskInfo['pxasocialfeed_run_all_configurations'] = false;
         }
 
         if ($this->getAction($parentObject) == 'edit') {
             $taskInfo['pxasocialfeed_configs'] = $task->getConfigurations();
             $taskInfo['pxasocialfeed_receiver_email'] = $task->getReceiverEmail();
             $taskInfo['pxasocialfeed_sender_email'] = $task->getSenderEmail();
+            $taskInfo['pxasocialfeed_run_all_configurations'] = $task->isRunAllConfigurations();
         }
 
         $additionalFields['pxasocialfeed_do_all_configs'] = [
-            'code' => '<input type="checkbox" name="tx_scheduler[pxasocialfeed_do_all_configs]" '.($task->isRunAllConfigurations() ? 'checked="checked"' : '').' />',
+            'code' => '<input type="checkbox" name="tx_scheduler[pxasocialfeed_do_all_configs]" '.($taskInfo['pxasocialfeed_run_all_configurations'] ? 'checked="checked"' : '').' />',
             'label' => 'Run all configurations (So Facebook reviewer can see their new config running without needing admin to edit this scheduler)',
             'cshKey' => '',
             'cshLabel' => '',
