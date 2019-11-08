@@ -86,6 +86,7 @@ abstract class BaseUpdater implements FeedUpdaterInterface
      */
     protected function encodeMessage(string $message): string
     {
+        return $message;
         return substr(json_encode($message), 1, -1);
     }
 }
