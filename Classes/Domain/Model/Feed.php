@@ -187,12 +187,7 @@ class Feed extends AbstractEntity
      */
     public function getDecodedMessage(): string
     {
-        return json_decode(
-            sprintf(
-                '"%s"',
-                $this->message
-            )
-        );
+        return $this->message;
     }
 
     /**
