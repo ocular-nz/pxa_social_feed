@@ -12,7 +12,7 @@ defined('TYPO3_MODE') or die();
         ],
         // non-cacheable actions
         [
-            'Feeds' => 'list, loadFeedAjax'
+            'Feeds' => 'loadFeedAjax'
         ]
     );
 
